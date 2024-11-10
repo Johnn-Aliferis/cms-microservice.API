@@ -1,0 +1,6 @@
+@cms_microservice.API_HostAddress = http://localhost:5122
+
+GET {{cms_microservice.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
