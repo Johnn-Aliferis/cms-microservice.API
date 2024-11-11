@@ -19,7 +19,7 @@ namespace cms_microservice.API.Service
         }
 
         public async Task<MenuItem?> GetMenuItemAsync()
-        { 
+        {
             var cachedMenuItem = await _cache.GetStringAsync(CacheKey);
             if (!string.IsNullOrEmpty(cachedMenuItem))
             {
@@ -37,10 +37,27 @@ namespace cms_microservice.API.Service
         }
 
         public async Task UpdateMenuItemAsync(MenuItem menuItem)
-        { 
-            await _menuItemRepository.UpdateMenuItemAsync(menuItem);
-            
-            var serializedMenuItem = JsonSerializer.Serialize(menuItem);
+        {
+            MenuItem? existingMenuItem = await _menuItemRepository.GetMenuItemAsync();
+
+            if (existingMenuItem == null)
+            {
+                var menuItemToBePersisted = new MenuItem
+                {
+                    Data = menuItem.Data,
+                    CreatedAt = DateTime.UtcNow,
+                    UpdatedAt = DateTime.UtcNow
+                };
+                await _menuItemRepository.SaveMenuItem(menuItemToBePersisted);
+            }
+            else
+            {
+                existingMenuItem.UpdatedAt = DateTime.UtcNow;
+                existingMenuItem.Data = menuItem.Data;
+                await _menuItemRepository.UpdateMenuItemAsync(existingMenuItem);
+            }
+
+            var serializedMenuItem = JsonSerializer.Serialize(existingMenuItem);
             await _cache.SetStringAsync(CacheKey, serializedMenuItem);
         }
     }

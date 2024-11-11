@@ -22,5 +22,10 @@ namespace cms_microservice.API.Repository
             _context.MenuItems.Update(menuItem);
             await _context.SaveChangesAsync();
         }
+
+        public async Task SaveMenuItem(MenuItem menuItem)
+        {
+            await _context.MenuItems.AddAsync(menuItem);
+        }
     }
 }

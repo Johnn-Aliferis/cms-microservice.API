@@ -2,7 +2,6 @@ using cms_microservice.API.Data;
 using cms_microservice.API.Repository;
 using cms_microservice.API.Service;
 using Microsoft.EntityFrameworkCore;
-using StackExchange.Redis;
 
 var builder = WebApplication.CreateBuilder(args);
 

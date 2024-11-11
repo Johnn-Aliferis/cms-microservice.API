@@ -2,7 +2,7 @@
 using cms_microservice.API.Service;
 using Microsoft.AspNetCore.Mvc;
 
-namespace cms_microservice.API
+namespace cms_microservice.API.Controller
 {
     [Route("api")]
     [ApiController]
@@ -10,7 +10,7 @@ namespace cms_microservice.API
     {
         private readonly IMenuItemService _menuItemService;
 
-        //DI
+        //Dependency Injection
         public MenuItemController(IMenuItemService menuItemService)
         {
             _menuItemService = menuItemService;
@@ -29,6 +29,20 @@ namespace cms_microservice.API
                 }
 
                 return Ok(menuItem);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpPost("update-menu-items")]
+        public async Task<ActionResult> UpdateMenuItems([FromBody] MenuItem menuItem)
+        {
+            try
+            {
+                await _menuItemService.UpdateMenuItemAsync(menuItem);
+                return Ok("Successfully updated");
             }
             catch (Exception ex)
             {

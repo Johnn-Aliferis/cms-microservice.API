@@ -6,5 +6,6 @@ namespace cms_microservice.API.Repository
     {
         Task<MenuItem?> GetMenuItemAsync();
         Task UpdateMenuItemAsync(MenuItem menuItem);
+        Task SaveMenuItem(MenuItem menuItme);
     }
 }
