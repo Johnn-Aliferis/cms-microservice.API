@@ -1,4 +1,5 @@
 using cms_microservice.API.Data;
+using cms_microservice.API.Exceptions;
 using cms_microservice.API.Repository;
 using cms_microservice.API.Service;
 using Microsoft.EntityFrameworkCore;
@@ -42,6 +43,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+
+//Middleware for global exception handling.
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseHttpsRedirection();
 
